@@ -9,32 +9,22 @@ app.set('view engine', 'ejs');
 let IP = 'http://192.168.68.114'
 
 app.get('/', async (req, res) => {
+    let data;
+    await axios.get(`${IP}/solar_api/v1/GetPowerFlowRealtimeData.fcgi`)
+            .then(response => {
+                data = {
+                    production: response.data.Body.Data.Inverters['1'].P,
+                    grid: Math.floor(response.data.Body.Data.Site.P_Grid)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
     res.render('index', {
-        titlu: 'Panouri Solare',
-        productie: await axios.get(`${IP}/solar_api/v1/GetPowerFlowRealtimeData.fcgi`)
-            .then(response => {
-                const productie = response.data.Body.Data.Inverters['1'].P
-                return productie
-            })
-            .catch(error => {
-                console.log(error)
-            }),
-        consum: await axios.get(`${IP}/solar_api/v1/GetPowerFlowRealtimeData.fcgi`)
-            .then(response => {
-                const consum = response.data.Body.Data.Site.P_PV;
-                return consum
-            })
-            .catch(error => {
-                console.log(error)
-            }),
-        grid: await axios.get(`${IP}/solar_api/v1/GetPowerFlowRealtimeData.fcgi`)
-            .then(response => {
-                const grid = response.data.Body.Data.Site.P_Grid;
-                return grid
-            })
-            .catch(error => {
-                console.log(error)
-            })
+        titlu: 'Solar ☀️',
+        production: data.production,
+        consumption: data.production + data.grid,
+        grid: data.grid
     });
 });
 

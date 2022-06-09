@@ -8,13 +8,13 @@
 </head>
 <body>
     <header>
-        <p>Actualizat: <span id="timp"></span> <span id="data"></span></p>
+        <p>Updated at <span id="time"></span></p>
     </header>
 
     <main>
         <section>
-            <p>Invertor: <span><%= productie %></span> W</p>
-            <p>Consumption <span><%= consum %></span> W</p>
+            <p>Production: <span><%= production %></span> W</p>
+            <p>Consumption: <span><%= consumption %></span> W</p>
             <p>Grid: <span><%= grid %></span> W</p>
         </section>
     </main>
@@ -25,12 +25,10 @@
 <script>
     var date = new Date();
     if (date.getSeconds() < 10) {
-        document.getElementById("timp").innerHTML = date.getHours() + ":0" + date.getMinutes() + ":0" + date.getSeconds();
+        document.getElementById("time").innerHTML = date.getHours() + ":0" + date.getMinutes() + ":0" + date.getSeconds();
     }
-    var timp = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    document.getElementById("timp").innerHTML = timp;
-    var data = date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear();
-    document.getElementById("data").innerHTML = data;
+    var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    document.getElementById("time").innerHTML = time;
 </script>
 
 <style>
